@@ -1,7 +1,7 @@
 {
   "name": "ember-logging-flash-messages",
-  "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "version": "0.0.1",
+  "description": "A logging consumer to integrate flashMessages with ember-logging-service.",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -15,7 +15,7 @@
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": "Arvin Singla",
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.2",

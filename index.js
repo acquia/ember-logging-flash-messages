@@ -2,5 +2,8 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-logging-flash-messages'
+  name: 'ember-logging-flash-messages',
+  isDevelopingAddon: function() {
+    return true;
+  }
 };
