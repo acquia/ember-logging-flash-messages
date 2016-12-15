@@ -1,10 +1,35 @@
-# Ember-logging-flash-messages
+# ember-logging-flash-messages
+
+This addon provides a logging consumer for the [ember-logging-service](https://github.com/acquia/ember-logging-service/) addon.
+The consumer handles sending any error events to the [Flash messages](https://github.com/poteto/ember-cli-flash) service.
+
+## Configuration
+
+First you must install the [ember-logging-service](https://github.com/acquia/ember-logging-service/) addon. Additionally, the ember-logging-service
+addon must be configured with `enableErrors = true` if you want Error flash messages displayed.
+
+You must set `enabled = true` for each environment you wish to monitor (both in the
+ember-logging-service and in the ember-logging-flash-messages modules).
+
+```
+ENV['ember-logging-service'] = {
+  enabled: true,
+  errorsEnabled: true,
+  .....
+}
+
+ENV['ember-logging-flash-messages'] = {
+  enabled: true
+}
+```
+
+# Developing for ember-logging-flash-messages
 
 This README outlines the details of collaborating on this Ember addon.
 
 ## Installation
 
-* `git clone <repository-url>` this repository
+* `git clone git@github.com:acquia/ember-logging-flash-messages.git` this repository
 * `cd ember-logging-flash-messages`
 * `npm install`
 * `bower install`
@@ -24,4 +49,4 @@ This README outlines the details of collaborating on this Ember addon.
 
 * `ember build`
 
-For more information on using ember-cli, visit [http://ember-cli.com/](http://ember-cli.com/).
+For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
