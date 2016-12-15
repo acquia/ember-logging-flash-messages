@@ -1,8 +1,14 @@
 import Ember from 'ember';
 
-export default Ember.Service.extend({
+const {
+  Service,
+  inject,
+  run
+} = Ember;
 
-  flashMessages: Ember.inject.service(),
+export default Service.extend({
+
+  flashMessages: inject.service(),
 
   /**
    * The current application environment
@@ -13,17 +19,17 @@ export default Ember.Service.extend({
   currentEnvironment: null,
 
   /**
-   * Bugsnag callback function for logger
+   * Flash Messages callback function for logger
    * @method  loggerCallback
    * @public
    * @param  {Object} event   logger event object
    */
   loggerCallback(event) {
-    let metadata = event.metadata;
+    let { metadata } = event;
     let flashMessages = this.get('flashMessages');
     let errorMessage;
 
-    switch(event.level) {
+    switch (event.level) {
       case 'error':
         if (metadata && metadata.error && metadata.error.message) {
           errorMessage = metadata.error.message;
@@ -31,7 +37,7 @@ export default Ember.Service.extend({
           errorMessage = metadata.error || 'An unknown error occurred';
         }
 
-        Ember.run.next(() => {
+        run.next(() => {
           flashMessages.danger(errorMessage, {
             sticky: true
           });
@@ -39,13 +45,13 @@ export default Ember.Service.extend({
         break;
 
       case 'warning':
-        Ember.run.next(() => {
+        run.next(() => {
           flashMessages.warning(event.name);
         });
         break;
 
       case 'info':
-        Ember.run.next(() => {
+        run.next(() => {
           flashMessages.info(event.name);
         });
         break;

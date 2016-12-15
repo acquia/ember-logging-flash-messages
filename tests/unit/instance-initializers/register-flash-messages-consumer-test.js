@@ -16,7 +16,7 @@ test('it configures the logging consumer', function(assert) {
   let environmentMock = {
     environment: 'unit-testing',
     'ember-logging-flash-messages': {
-      enabled: true,
+      enabled: true
     }
   };
   let loggerMock = Service.create({
@@ -30,6 +30,7 @@ test('it configures the logging consumer', function(assert) {
       error: 'error'
     }
   });
+  let flashMessagesMock = Service.create();
   let consumer = FlashMessagesLoggingConsumer.create();
   let instanceMock = {
     lookup(factoryName) {
@@ -39,9 +40,12 @@ test('it configures the logging consumer', function(assert) {
       if (factoryName === 'service:logger') {
         return loggerMock;
       }
+      if (factoryName === 'service:flashMessages') {
+        return flashMessagesMock;
+      }
     }
   };
 
-  registerFlashMessagesConsumer(instanceMock, environmentMock);
+  registerFlashMessagesConsumer(instanceMock, environmentMock, flashMessagesMock);
   assert.equal(consumer.get('currentEnvironment'), 'unit-testing', 'The current environment is stored on the consumer.');
 });

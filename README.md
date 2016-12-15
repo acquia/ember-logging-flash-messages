@@ -5,7 +5,7 @@ The consumer handles sending any error events to the [Flash messages](https://gi
 
 ## Configuration
 
-First you must install the [ember-logging-service](https://github.com/acquia/ember-logging-service/) addon. Additionally, the ember-logging-service
+First you must install the [Flash messages](https://github.com/poteto/ember-cli-flash) and [ember-logging-service](https://github.com/acquia/ember-logging-service/) addon. Additionally, the ember-logging-service
 addon must be configured with `enableErrors = true` if you want Error flash messages displayed.
 
 You must set `enabled = true` for each environment you wish to monitor (both in the

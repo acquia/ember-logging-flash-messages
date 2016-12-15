@@ -1,9 +1,9 @@
 export default function registerFlashMessagesConsumer(instance, config) {
   let loggingService, consumerService, levels, tags;
-
+  let flashMessagesService = instance.lookup('service:flashMessages');
   let addonOptions = config['ember-logging-flash-messages'];
   // Must be enabled in configuration for the current environment.
-  if (!addonOptions.enabled) {
+  if (!addonOptions.enabled || !flashMessagesService) {
     return;
   }
 

@@ -1,6 +1,8 @@
 import { moduleFor, test } from 'ember-qunit';
 import Ember from 'ember';
 
+const { Service } = Ember;
+
 moduleFor('service:flash-messages-logging-consumer', 'Unit | Service | flash messages logging consumer');
 
 test('it has publicly accessible methods', function(assert) {
@@ -30,7 +32,7 @@ test('it generates a flash messages error', function(assert) {
       error: 'Danger, Will Robinson!'
     }
   };
-  let flashMessagesMock = Ember.Service.create({
+  let flashMessagesMock = Service.create({
     danger(message) {
       assert.equal(message, 'Danger, Will Robinson!', 'A flash messages error was generated');
     }
@@ -47,7 +49,7 @@ test('it generates a flash messages warning', function(assert) {
       name: 'Warning, Will Robinson!',
       type: 'warning'
     };
-  let flashMessagesMock = Ember.Service.create({
+  let flashMessagesMock = Service.create({
     warning(message) {
       assert.equal(message, 'Warning, Will Robinson!', 'A flash messages warning was generated');
     }
@@ -63,7 +65,7 @@ test('it generates a flash messages info', function(assert) {
       name: 'Info, Will Robinson!',
       type: 'info'
     };
-  let flashMessagesMock = Ember.Service.create({
+  let flashMessagesMock = Service.create({
     info(message) {
       assert.equal(message, 'Info, Will Robinson!', 'A flash messages info was generated');
     }
