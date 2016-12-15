@@ -21,22 +21,33 @@ export default Ember.Service.extend({
   loggerCallback(event) {
     let metadata = event.metadata;
     let flashMessages = this.get('flashMessages');
+    let errorMessage;
 
     switch(event.level) {
       case 'error':
-        if (metadata.error) {
-          flashMessages.danger(metadata.error.message, {
+        if (metadata && metadata.error && metadata.error.message) {
+          errorMessage = metadata.error.message;
+        } else {
+          errorMessage = metadata.error || 'An unknown error occurred';
+        }
+
+        Ember.run.next(() => {
+          flashMessages.danger(errorMessage, {
             sticky: true
           });
-        }
+        });
         break;
 
       case 'warning':
-        flashMessages.warning(event.title);
+        Ember.run.next(() => {
+          flashMessages.warning(event.name);
+        });
         break;
 
       case 'info':
-        flashMessages.info(event.title);
+        Ember.run.next(() => {
+          flashMessages.info(event.name);
+        });
         break;
     }
   }

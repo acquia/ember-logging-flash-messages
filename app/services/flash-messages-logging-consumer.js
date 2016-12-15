@@ -1,1 +1,3 @@
-export { default } from 'ember-logging-flash-messages/services/flash-messages-logging-consumer';
+import FlashMessagesLoggingConsumer from 'ember-logging-flash-messages/services/flash-messages-logging-consumer';
+
+export default FlashMessagesLoggingConsumer;

@@ -1,5 +1,3 @@
-import Ember from 'ember';
-
 export default function registerFlashMessagesConsumer(instance, config) {
   let loggingService, consumerService, levels, tags;
 
@@ -19,12 +17,3 @@ export default function registerFlashMessagesConsumer(instance, config) {
   tags = addonOptions.tags || 'error';
   loggingService.registerConsumer('ember-logging-flash-messages', [consumerService.get('loggerCallback'), consumerService], levels, tags);
 }
-
-// export function initialize(/* appInstance */) {
-//   // appInstance.inject('route', 'foo', 'service:foo');
-// }
-
-// export default {
-//   name: 'register-flash-messages-consumer',
-//   initialize
-// };
