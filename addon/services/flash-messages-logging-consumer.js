@@ -3,6 +3,7 @@ import Ember from 'ember';
 const {
   Service,
   inject,
+  isEmpty,
   run
 } = Ember;
 
@@ -46,7 +47,7 @@ export default Service.extend({
 
       case 'warning':
         message = event.name;
-        if (!Ember.isEmpty(event.metadata)) {
+        if (!isEmpty(event.metadata)) {
           message = event.metadata.message || event.metadata;
         }
         run.next(() => {
@@ -56,7 +57,7 @@ export default Service.extend({
 
       case 'info':
         message = event.name;
-        if (!Ember.isEmpty(event.metadata)) {
+        if (!isEmpty(event.metadata)) {
           message = event.metadata.message || event.metadata;
         }
         run.next(() => {
