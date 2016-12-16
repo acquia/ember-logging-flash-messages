@@ -27,32 +27,40 @@ export default Service.extend({
   loggerCallback(event) {
     let { metadata } = event;
     let flashMessages = this.get('flashMessages');
-    let errorMessage;
+    let message;
 
     switch (event.level) {
       case 'error':
         if (metadata && metadata.error && metadata.error.message) {
-          errorMessage = metadata.error.message;
+          message = metadata.error.message;
         } else {
-          errorMessage = metadata.error || 'An unknown error occurred';
+          message = metadata.error || 'An unknown error occurred';
         }
 
         run.next(() => {
-          flashMessages.danger(errorMessage, {
+          flashMessages.danger(message, {
             sticky: true
           });
         });
         break;
 
       case 'warning':
+        message = event.name;
+        if (!Ember.isEmpty(event.metadata)) {
+          message = event.metadata.message || event.metadata;
+        }
         run.next(() => {
-          flashMessages.warning(event.name);
+          flashMessages.warning(message);
         });
         break;
 
       case 'info':
+        message = event.name;
+        if (!Ember.isEmpty(event.metadata)) {
+          message = event.metadata.message || event.metadata;
+        }
         run.next(() => {
-          flashMessages.info(event.name);
+          flashMessages.info(message);
         });
         break;
     }
