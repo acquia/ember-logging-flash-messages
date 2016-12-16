@@ -1,4 +1,4 @@
-# ember-logging-flash-messages
+# ember-logging-flash-messages [![Build Status](https://travis-ci.com/acquia/ember-logging-flash-messages.svg?token=xpbhY9xz7Z9aqH5aUfgP&branch=master)](https://travis-ci.com/acquia/ember-logging-flash-messages)
 
 This addon provides a logging consumer for the [ember-logging-service](https://github.com/acquia/ember-logging-service/) addon.
 The consumer handles sending any error events to the [Flash messages](https://github.com/poteto/ember-cli-flash) service.
