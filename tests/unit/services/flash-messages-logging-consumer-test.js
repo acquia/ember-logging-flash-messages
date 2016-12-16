@@ -43,33 +43,69 @@ test('it generates a flash messages error', function(assert) {
 });
 
 test('it generates a flash messages warning', function(assert) {
-  assert.expect(1);
-  let event = {
-      level: 'warning',
-      name: 'Warning, Will Robinson!',
-      type: 'warning'
-    };
+  assert.expect(3);
+
   let flashMessagesMock = Service.create({
     warning(message) {
       assert.equal(message, 'Warning, Will Robinson!', 'A flash messages warning was generated');
     }
   });
   let service = this.subject({ flashMessages: flashMessagesMock });
-  service.loggerCallback(event);
+
+  let event1 = {
+    level: 'warning',
+    name: 'Warning, Will Robinson!',
+    type: 'warning'
+  };
+  let event2 = {
+    level: 'warning',
+    name: 'Event name should not be shown when metadata is specified',
+    metadata: 'Warning, Will Robinson!',
+    type: 'warning'
+  };
+  let event3 = {
+    level: 'warning',
+    name: 'Event name should not be shown when metadata is specified',
+    metadata: {
+      message: 'Warning, Will Robinson!'
+    },
+    type: 'warning'
+  };
+  service.loggerCallback(event1);
+  service.loggerCallback(event2);
+  service.loggerCallback(event3);
 });
 
 test('it generates a flash messages info', function(assert) {
-  assert.expect(1);
-  let event = {
-      level: 'info',
-      name: 'Info, Will Robinson!',
-      type: 'info'
-    };
+  assert.expect(3);
+
   let flashMessagesMock = Service.create({
     info(message) {
       assert.equal(message, 'Info, Will Robinson!', 'A flash messages info was generated');
     }
   });
   let service = this.subject({ flashMessages: flashMessagesMock });
-  service.loggerCallback(event);
+
+  let event1 = {
+    level: 'info',
+    name: 'Info, Will Robinson!',
+    type: 'info'
+  };
+  let event2 = {
+    level: 'info',
+    name: 'Event name should not be shown when metadata is specified',
+    metadata: 'Info, Will Robinson!',
+    type: 'info'
+  };
+  let event3 = {
+    level: 'info',
+    name: 'Event name should not be shown when metadata is specified',
+    metadata: {
+      message: 'Info, Will Robinson!'
+    },
+    type: 'info'
+  };
+  service.loggerCallback(event1);
+  service.loggerCallback(event2);
+  service.loggerCallback(event3);
 });
