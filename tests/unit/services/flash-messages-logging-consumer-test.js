@@ -109,3 +109,40 @@ test('it generates a flash messages info', function(assert) {
   service.loggerCallback(event2);
   service.loggerCallback(event3);
 });
+
+test('it generates a flash messages success', function(assert) {
+  assert.expect(3);
+
+  let first = true;
+  let flashMessagesMock = Service.create({
+    success(message) {
+      let expected = first ? 'Success' : 'Success, Will Robinson!';
+      first = false;
+      assert.equal(message, expected, 'A flash messages info was generated');
+    }
+  });
+  let service = this.subject({ flashMessages: flashMessagesMock });
+
+  let event1 = {
+    level: 'info',
+    name: 'Success',
+    type: 'info'
+  };
+  let event2 = {
+    level: 'info',
+    name: 'Success',
+    metadata: 'Success, Will Robinson!',
+    type: 'info'
+  };
+  let event3 = {
+    level: 'info',
+    name: 'Success',
+    metadata: {
+      message: 'Success, Will Robinson!'
+    },
+    type: 'info'
+  };
+  service.loggerCallback(event1);
+  service.loggerCallback(event2);
+  service.loggerCallback(event3);
+});

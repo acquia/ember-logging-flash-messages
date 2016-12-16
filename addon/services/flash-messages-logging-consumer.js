@@ -56,12 +56,16 @@ export default Service.extend({
         break;
 
       case 'info':
+        let method = 'info';
+        if (event.name === 'Success') {
+          method = 'success';
+        }
         message = event.name;
         if (!isEmpty(event.metadata)) {
           message = event.metadata.message || event.metadata;
         }
         run.next(() => {
-          flashMessages.info(message);
+          flashMessages[method](message);
         });
         break;
     }
