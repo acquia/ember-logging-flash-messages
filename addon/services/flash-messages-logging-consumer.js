@@ -4,7 +4,8 @@ const {
   Service,
   inject,
   isEmpty,
-  run
+  run,
+  typeOf
 } = Ember;
 
 export default Service.extend({
@@ -46,10 +47,7 @@ export default Service.extend({
         break;
 
       case 'warning':
-        message = event.name;
-        if (!isEmpty(event.metadata)) {
-          message = event.metadata.message || event.metadata;
-        }
+        message = this._readMessageFromEvent(event);
         run.next(() => {
           flashMessages.warning(message);
         });
@@ -60,14 +58,30 @@ export default Service.extend({
         if (event.name === 'Success') {
           method = 'success';
         }
-        message = event.name;
-        if (!isEmpty(event.metadata)) {
-          message = event.metadata.message || event.metadata;
-        }
+        message = this._readMessageFromEvent(event);
         run.next(() => {
           flashMessages[method](message);
         });
         break;
     }
+  },
+
+  /**
+   * Reads the message value to display from a logging event.
+   * @method _readMessageFromEvent
+   * @private
+   * @param  {Object} event The logging event
+   * @return {String}       The message to display
+   */
+  _readMessageFromEvent(event) {
+    if (!isEmpty(event.metadata)) {
+      if (!isEmpty(event.metadata.message) && typeOf(event.metadata.message) === 'string') {
+        return event.metadata.message;
+      }
+      if (typeOf(event.metadata) === 'string') {
+        return event.metadata;
+      }
+    }
+    return event.name;
   }
 });
