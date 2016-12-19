@@ -1,7 +1,16 @@
 # ember-logging-flash-messages [![Build Status](https://travis-ci.com/acquia/ember-logging-flash-messages.svg?token=xpbhY9xz7Z9aqH5aUfgP&branch=master)](https://travis-ci.com/acquia/ember-logging-flash-messages)
 
 This addon provides a logging consumer for the [ember-logging-service](https://github.com/acquia/ember-logging-service/) addon.
-The consumer handles sending any error events to the [Flash messages](https://github.com/poteto/ember-cli-flash) service.
+The consumer handles sending any configured events events to the [Flash messages](https://github.com/poteto/ember-cli-flash) service.
+
+## Sample usage
+By default, this addon will listen for all error messages and display them with danger formatting.  The addon can be configured to listen for additional tags and severity levels.  When these are configured they check for the message string to be displayed by checking for the following properties in order:
+
+* event.metadata.message
+* event.metadata
+* event.name
+
+If the event.name is 'Success' and the severity level is `info` then the message will be displayed with the successful message formatting rather than the info formatting.
 
 ## Configuration
 
