@@ -1,17 +1,23 @@
-import { moduleFor, test } from 'ember-qunit';
+import QUnit from 'qunit';
 import Ember from 'ember';
+import FlashMessagesLoggingConsumer from 'ember-logging-flash-messages/services/flash-messages-logging-consumer';
 
-const { Service } = Ember;
+const {
+  Object: emberObject
+} = Ember;
 
-moduleFor('service:flash-messages-logging-consumer', 'Unit | Service | flash messages logging consumer');
+QUnit.module('Unit | Service | flash messages logging consumer');
 
-test('it has publicly accessible methods', function(assert) {
-  let service = this.subject();
+QUnit.test('it has publicly accessible methods', function(assert) {
+  assert.expect(1);
+
+  let service = FlashMessagesLoggingConsumer.create();
   assert.ok(service.loggerCallback, 'The logger callback is accessible.');
 });
 
-test('it generates a flash messages error', function(assert) {
-  assert.expect(2);
+QUnit.test('it generates a flash messages error with a full event object', function(assert) {
+  assert.expect(1);
+  let done = assert.async();
   let event = {
     level: 'error',
     name: 'Event name error',
@@ -24,7 +30,22 @@ test('it generates a flash messages error', function(assert) {
       }
     }
   };
-  let event2 = {
+  let flashMessagesMock = emberObject.create({
+    danger(message) {
+      assert.equal(message, 'Danger, Will Robinson!', 'A flash messages error was generated');
+      done();
+    }
+  });
+  let service = FlashMessagesLoggingConsumer.create({
+    flashMessages: flashMessagesMock
+  });
+  service.loggerCallback(event);
+});
+
+QUnit.test('it generates a flash messages error with a partial event object', function(assert) {
+  assert.expect(1);
+  let done = assert.async();
+  let event = {
     level: 'error',
     name: 'Event name error',
     type: 'error',
@@ -32,38 +53,30 @@ test('it generates a flash messages error', function(assert) {
       error: 'Danger, Will Robinson!'
     }
   };
-  let flashMessagesMock = Service.create({
+  let flashMessagesMock = emberObject.create({
     danger(message) {
       assert.equal(message, 'Danger, Will Robinson!', 'A flash messages error was generated');
+      done();
     }
   });
-  let service = this.subject({ flashMessages: flashMessagesMock });
+  let service = FlashMessagesLoggingConsumer.create({
+    flashMessages: flashMessagesMock
+  });
   service.loggerCallback(event);
-  service.loggerCallback(event2);
 });
 
-test('it generates a flash messages warning', function(assert) {
-  assert.expect(3);
-
-  let flashMessagesMock = Service.create({
+QUnit.test('it generates a flash messages warning for a full event object', function(assert) {
+  assert.expect(1);
+  let done = assert.async();
+  let flashMessagesMock = emberObject.create({
     warning(message) {
       assert.equal(message, 'Warning, Will Robinson!', 'A flash messages warning was generated');
+      done();
     }
   });
-  let service = this.subject({ flashMessages: flashMessagesMock });
+  let service = FlashMessagesLoggingConsumer.create({ flashMessages: flashMessagesMock });
 
-  let event1 = {
-    level: 'warning',
-    name: 'Warning, Will Robinson!',
-    type: 'warning'
-  };
-  let event2 = {
-    level: 'warning',
-    name: 'Event name should not be shown when metadata is specified',
-    metadata: 'Warning, Will Robinson!',
-    type: 'warning'
-  };
-  let event3 = {
+  let event = {
     level: 'warning',
     name: 'Event name should not be shown when metadata is specified',
     metadata: {
@@ -71,33 +84,59 @@ test('it generates a flash messages warning', function(assert) {
     },
     type: 'warning'
   };
-  service.loggerCallback(event1);
-  service.loggerCallback(event2);
-  service.loggerCallback(event3);
+  service.loggerCallback(event);
 });
 
-test('it generates a flash messages info', function(assert) {
-  assert.expect(3);
-
-  let flashMessagesMock = Service.create({
-    info(message) {
-      assert.equal(message, 'Info, Will Robinson!', 'A flash messages info was generated');
+QUnit.test('it generates a flash messages warning for a partial event object', function(assert) {
+  assert.expect(1);
+  let done = assert.async();
+  let flashMessagesMock = emberObject.create({
+    warning(message) {
+      assert.equal(message, 'Warning, Will Robinson!', 'A flash messages warning was generated');
+      done();
     }
   });
-  let service = this.subject({ flashMessages: flashMessagesMock });
+  let service = FlashMessagesLoggingConsumer.create({ flashMessages: flashMessagesMock });
 
-  let event1 = {
-    level: 'info',
-    name: 'Info, Will Robinson!',
-    type: 'info'
-  };
-  let event2 = {
-    level: 'info',
+  let event = {
+    level: 'warning',
     name: 'Event name should not be shown when metadata is specified',
-    metadata: 'Info, Will Robinson!',
-    type: 'info'
+    metadata: 'Warning, Will Robinson!',
+    type: 'warning'
   };
-  let event3 = {
+  service.loggerCallback(event);
+});
+
+QUnit.test('it generates a flash messages warning for a minimal event object', function(assert) {
+  assert.expect(1);
+  let done = assert.async();
+  let flashMessagesMock = emberObject.create({
+    warning(message) {
+      assert.equal(message, 'Warning, Will Robinson!', 'A flash messages warning was generated');
+      done();
+    }
+  });
+  let service = FlashMessagesLoggingConsumer.create({ flashMessages: flashMessagesMock });
+
+  let event = {
+    level: 'warning',
+    name: 'Warning, Will Robinson!',
+    type: 'warning'
+  };
+  service.loggerCallback(event);
+});
+
+QUnit.test('it generates a flash messages info with a full event object', function(assert) {
+  assert.expect(1);
+  let done = assert.async();
+  let flashMessagesMock = emberObject.create({
+    info(message) {
+      assert.equal(message, 'Info, Will Robinson!', 'A flash messages info was generated');
+      done();
+    }
+  });
+  let service = FlashMessagesLoggingConsumer.create({ flashMessages: flashMessagesMock });
+  let event = {
     level: 'info',
     name: 'Event name should not be shown when metadata is specified',
     metadata: {
@@ -105,36 +144,59 @@ test('it generates a flash messages info', function(assert) {
     },
     type: 'info'
   };
-  service.loggerCallback(event1);
-  service.loggerCallback(event2);
-  service.loggerCallback(event3);
+  service.loggerCallback(event);
 });
 
-test('it generates a flash messages success', function(assert) {
-  assert.expect(3);
-
-  let first = true;
-  let flashMessagesMock = Service.create({
-    success(message) {
-      let expected = first ? 'Success' : 'Success, Will Robinson!';
-      first = false;
-      assert.equal(message, expected, 'A flash messages info was generated');
+QUnit.test('it generates a flash messages info with a partial event object', function(assert) {
+  assert.expect(1);
+  let done = assert.async();
+  let flashMessagesMock = emberObject.create({
+    info(message) {
+      assert.equal(message, 'Info, Will Robinson!', 'A flash messages info was generated');
+      done();
     }
   });
-  let service = this.subject({ flashMessages: flashMessagesMock });
+  let service = FlashMessagesLoggingConsumer.create({ flashMessages: flashMessagesMock });
+  let event = {
+    level: 'info',
+    name: 'Event name should not be shown when metadata is specified',
+    metadata: 'Info, Will Robinson!',
+    type: 'info'
+  };
+  service.loggerCallback(event);
+});
 
-  let event1 = {
+QUnit.test('it generates a flash messages info with a minimal event object', function(assert) {
+  assert.expect(1);
+  let done = assert.async();
+  let flashMessagesMock = emberObject.create({
+    info(message) {
+      assert.equal(message, 'Info, Will Robinson!', 'A flash messages info was generated');
+      done();
+    }
+  });
+  let service = FlashMessagesLoggingConsumer.create({ flashMessages: flashMessagesMock });
+
+  let event = {
     level: 'info',
-    name: 'Success',
+    name: 'Info, Will Robinson!',
     type: 'info'
   };
-  let event2 = {
-    level: 'info',
-    name: 'Success',
-    metadata: 'Success, Will Robinson!',
-    type: 'info'
-  };
-  let event3 = {
+  service.loggerCallback(event);
+});
+
+QUnit.test('it generates a flash messages success with a full event object', function(assert) {
+  assert.expect(1);
+  let done = assert.async();
+
+  let flashMessagesMock = emberObject.create({
+    success(message) {
+      assert.equal(message, 'Success, Will Robinson!', 'A flash messages info was generated');
+      done();
+    }
+  });
+  let service = FlashMessagesLoggingConsumer.create({ flashMessages: flashMessagesMock });
+  let event = {
     level: 'info',
     name: 'Success',
     metadata: {
@@ -142,7 +204,45 @@ test('it generates a flash messages success', function(assert) {
     },
     type: 'info'
   };
-  service.loggerCallback(event1);
-  service.loggerCallback(event2);
-  service.loggerCallback(event3);
+  service.loggerCallback(event);
+});
+
+QUnit.test('it generates a flash messages success with a partial event object', function(assert) {
+  assert.expect(1);
+  let done = assert.async();
+
+  let flashMessagesMock = emberObject.create({
+    success(message) {
+      assert.equal(message, 'Success, Will Robinson!', 'A flash messages info was generated');
+      done();
+    }
+  });
+  let service = FlashMessagesLoggingConsumer.create({ flashMessages: flashMessagesMock });
+  let event = {
+    level: 'info',
+    name: 'Success',
+    metadata: 'Success, Will Robinson!',
+    type: 'info'
+  };
+  service.loggerCallback(event);
+});
+
+QUnit.test('it generates a flash messages success with a minimal event object', function(assert) {
+  assert.expect(1);
+  let done = assert.async();
+
+  let flashMessagesMock = emberObject.create({
+    success(message) {
+      assert.equal(message, 'Success', 'A flash messages info was generated');
+      done();
+    }
+  });
+  let service = FlashMessagesLoggingConsumer.create({ flashMessages: flashMessagesMock });
+
+  let event = {
+    level: 'info',
+    name: 'Success',
+    type: 'info'
+  };
+  service.loggerCallback(event);
 });
