@@ -32,7 +32,7 @@ export default Service.extend({
     let message;
 
     switch (event.level) {
-      case 'error':
+      case 'error': {
         if (metadata && metadata.error && metadata.error.message) {
           message = metadata.error.message;
         } else {
@@ -45,15 +45,17 @@ export default Service.extend({
           });
         });
         break;
+      }
 
-      case 'warning':
+      case 'warning': {
         message = this._readMessageFromEvent(event);
         run.next(() => {
           flashMessages.warning(message);
         });
         break;
+      }
 
-      case 'info':
+      case 'info': {
         let method = 'info';
         if (event.name === 'Success') {
           method = 'success';
@@ -63,6 +65,7 @@ export default Service.extend({
           flashMessages[method](message);
         });
         break;
+      }
     }
   },
 

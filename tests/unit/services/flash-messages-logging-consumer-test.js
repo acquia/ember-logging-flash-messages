@@ -6,7 +6,9 @@ const {
   Object: emberObject
 } = Ember;
 
-QUnit.module('Unit | Service | flash messages logging consumer');
+QUnit.module('Unit | Service | flash messages logging consumer', {
+  needs: 'service:flashMessages'
+});
 
 QUnit.test('it has publicly accessible methods', function(assert) {
   assert.expect(1);
