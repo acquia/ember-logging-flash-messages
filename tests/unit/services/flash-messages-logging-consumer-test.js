@@ -3,7 +3,9 @@ import Ember from 'ember';
 
 const { Service } = Ember;
 
-moduleFor('service:flash-messages-logging-consumer', 'Unit | Service | flash messages logging consumer');
+moduleFor('service:flash-messages-logging-consumer', 'Unit | Service | flash messages logging consumer', {
+  needs: ['service:flashMessages']
+});
 
 test('it has publicly accessible methods', function(assert) {
   let service = this.subject();
