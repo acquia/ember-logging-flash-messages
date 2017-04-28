@@ -3,6 +3,14 @@
 This addon provides a logging consumer for the [ember-logging-service](https://github.com/acquia/ember-logging-service/) addon.
 The consumer handles sending any configured events events to the [Flash messages](https://github.com/poteto/ember-cli-flash) service.
 
+## Installation
+As indicated, this addon requires the installation of ember-logging-service and ember-cli-flash.
+```
+ember install ember-cli-flash
+ember install ember-logging-service
+ember install ember-logging-flash-messages
+```
+
 ## Sample usage
 By default, this addon will listen for all error messages and display them with danger formatting.  The addon can be configured to listen for additional tags and severity levels.  When these are configured they check for the message string to be displayed by checking for the following properties in order:
 
