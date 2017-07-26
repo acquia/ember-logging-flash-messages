@@ -1,6 +1,6 @@
 {
   "name": "ember-logging-flash-messages",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A logging consumer to integrate flashMessages with ember-logging-service.",
   "directories": {
     "doc": "doc",
